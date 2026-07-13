@@ -21,6 +21,7 @@ nav:
   - Если что-то идет не так: troubleshoot.md
 theme: 
   name: readthedocs
+  custom_dir: overrides
   locale: ru
   highlightjs: true
   hljs_languages:
