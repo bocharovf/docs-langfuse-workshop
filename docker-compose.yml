@@ -7,15 +7,14 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace:cached
-    #ports:
-    #  - "8000:8000"
+    ports:
+      - "80:80"
     environment:
       PYTHONUNBUFFERED: 1
       VIRTUAL_HOST: "docs.langfuse-workshop.ru"
-      VIRTUAL_PORT: 8000
+      VIRTUAL_PORT: 80
       LETSENCRYPT_HOST: "docs.langfuse-workshop.ru"
       LETSENCRYPT_EMAIL: "bocharovf@gmail.com"
-    command: sh -lc "mkdocs serve -a 0.0.0.0:8000"
     networks:
      - main
 
