@@ -1,0 +1,15 @@
+img[src*="30"] {
+  width: 30%;
+  height: auto;
+}
+
+img[src*="50"] {
+  width: 50%;
+  height: auto;
+}
+
+img[src*="center"] {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

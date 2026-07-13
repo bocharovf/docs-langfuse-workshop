@@ -1,0 +1,35 @@
+site_name: Langfuse workshop
+site_author: Бочаров Филипп, Лобач Дмитрий, Иванов Даниел
+site_description: Воркшоп по Langfuse для начинающих. Научитесь использовать Langfuse для мониторинга и оптимизации ваших LLM-приложений.
+
+nav:
+  - Вступление: index.md
+  - Подготовка: setup.md
+  - Как читать трейс: howto.md
+  - Учимся инструментировать код: step0.md
+  - Сценарий 1: step11.md
+  - Решение 1: step12.md
+  - Сценарий 2: step21.md
+  - Решение 2: step22.md
+  - Сценарий 3: step31.md
+  - Решение 3: step32.md
+  - Сценарий 4: step41.md
+  - Решение 4: step42.md
+  - Сценарий 5: step51.md
+  - Решение 5: step52.md
+  - Заключение: conclusion.md
+  - Если что-то идет не так: troubleshoot.md
+theme: 
+  name: readthedocs
+  locale: ru
+  highlightjs: true
+  hljs_languages:
+    - python
+    - bash
+
+plugins:
+  - search
+  - glightbox
+
+extra_css:
+  - css/custom.css
