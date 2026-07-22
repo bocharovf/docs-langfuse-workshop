@@ -10,24 +10,6 @@ git clone https://github.com/bocharovf/langfuse-workshop.git
 
 Создайте копию файла `.env_example` с именем `.env` в том же каталоге.
 
-## Создайте проект в Langfuse
-
-1. Зарегистрируйтесь (sign up) на <http://localhost:3000/>.
-2. Создайте для себя отдельный проект в Langfuse.
-
-## Создайте ключи доступа к вашему проекту Langfuse (API Keys)
-
-Зайдите в **Settings → API Keys → Create new API Keys**.
-
-Пропишите ключи в `.env` файл проекта:
-
-```
-LANGFUSE_PUBLIC_KEY=pk-lf-...
-LANGFUSE_SECRET_KEY=sk-lf-...
-```
-
-![API Keys](/img/project-api-keys.png)
-
 # Получите доступ к LLM MWS GPT Model Hub
 
 Чтобы ИИ-агент работал, ему нужен доступ к большой языковой модели.
@@ -51,13 +33,12 @@ LANGFUSE_SECRET_KEY=sk-lf-...
 
 ## Деплоймент необходимых моделей
 
-Теперь нам нужно развернуть в нашем проекте 4 модели, с которыми будет работать наш агент.
+Теперь нам нужно развернуть в нашем проекте 3 модели, с которыми будет работать наш агент.
 
 Перейдите на закладку **GPT Model Hub -> Деплойменты моделей**.
 
-Создайте 4 модели:
+Создайте 3 модели:
 
-- `gpt-oss-120b`
 - `qwen3-235b-instruct`
 - `bge-m3`
 - `qwen3-32b`
@@ -95,7 +76,35 @@ LLM_TOKEN=v1....
 LLM_URL=https://gpt.mwsapis.ru/projects/ЗАМЕНИТЬ_НА_ВАШ_ПРОЕКТ/openai/v1/
 ```
 
-# Запустите проект
+# Создайте проект в Langfuse
+
+## Запустите Langfuse
+
+Выполните команду, чтобы запустить Langfuse (сам агент у нас пока еще работать не будет и часть контейнеров может упасть)
+
+```
+docker-compose up -d
+```
+
+1. Зарегистрируйтесь (sign up) на <http://localhost:3000/>.
+2. Создайте для себя организацию и проект в Langfuse.
+
+## Создайте ключи доступа к вашему проекту Langfuse (API Keys)
+
+Зайдите в **Settings → API Keys → Create new API Keys**.
+
+Пропишите ключи в `.env` файл проекта:
+
+```
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+```
+
+![API Keys](/img/project-api-keys.png)
+
+# Перезапустите проект
+
+Теперь, после заполнения `.env`, поднимаем оставшиеся контейнеры агента
 
 ```
 docker-compose up -d
@@ -114,5 +123,7 @@ docker-compose up -d
 
 1. Агент ответил на запрос рецептом
 2. В вашем проекте Langfuse на закладке Tracing видны трейсы
+
+![Tracing](/img/setup-result50.png)
 
 ![Tracing](/img/tracing.png)
