@@ -35,7 +35,7 @@
 Разверните пункт **Show advanced settings** и укажите:
 
 - API Base URL: `https://gpt.mwsapis.ru/projects/ЗАМЕНИТЬ_НА_ВАШ_ПРОЕКТ/openai/v1/`.
-- Custom models: `gpt-oss-120b`.
+- Custom models: `qwen3-235b-instruct`.
 
 Где API Base URL - это адрес вашего проекта, который вы ранее указали в параметре `LLM_URL` файла `.env`.
 
