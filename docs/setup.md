@@ -77,7 +77,7 @@ git clone https://github.com/bocharovf/langfuse-workshop.git
 
 ```
 LLM_TOKEN=v1....
-LLM_URL=https://gpt.mwsapis.ru/projects/ЗАМЕНИТЬ_НА_ВАШ_ПРОЕКТ/openai/v1/
+LLM_URL=https://gpt.mwsapis.ru/projects/ЗАМЕНИТЬ_НА_ВАШ_ПРОЕКТ/openai
 ```
 
 # Создайте проект в Langfuse
