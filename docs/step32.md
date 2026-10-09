@@ -12,7 +12,7 @@ MCP-серверы могут сбоить – возвращать ошибки
 
 В случае ошибки метода MCP, мы можем повторно вызывать его, чтобы повысить общие шансы на успех.
 
-В файле `mcp-client.py` в функциях `list_tools` и `call_tool` добавьте цикл со счетчиком попыток. 
+В файле `mcp_client.py` в функциях `list_tools` и `call_tool` добавьте цикл со счетчиком попыток. 
 
 Для лучшей наблюдаемости стоит записывать неудачные попытки в метаданные спана.
 
@@ -41,14 +41,14 @@ MAX_RETRIES = 3
 def list_tools():
 
     with langfuse.start_as_current_observation(as_type="tool", name="list-tools") as tool:
-        r = requests.post(
-            f"{MCP_URL}",
-            headers=_build_base_headers(),
-            json=_build_base_request("tools/list"),
-            timeout=5,
-        )    
         for attempt in range(MAX_RETRIES):
             try:
+                r = requests.post(
+                    f"{MCP_URL}",
+                    headers=_build_base_headers(),
+                    json=_build_base_request("tools/list"),
+                    timeout=5,
+                )
                 r.raise_for_status()
                 result = [_create_llm_tool_definition(t) for t in r.json()["result"]["tools"]]
 
