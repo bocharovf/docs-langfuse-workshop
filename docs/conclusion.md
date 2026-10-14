@@ -25,6 +25,7 @@ description: "Итоги воркшопа по Langfuse: ключевые выв
 - [Учебник по ML от Яндекса](https://education.yandex.ru/handbook/ml)
 - [Отличная книга](https://www.piter.com/blog/kniga-system-design-podgotovka-k-slozhnomu-intervyu-po-genai) для подготовки к собеседованию по проектированию GenAI
 - Как [читать мысли LLM](https://t.me/technosurvival/24)
+- О том как мы готовили воркшоп можно прочитать [в статье на Хабр](https://habr.com/ru/companies/oleg-bunin/articles/1057022/)
 
 
 ## Авторы
