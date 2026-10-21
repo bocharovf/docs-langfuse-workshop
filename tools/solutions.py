@@ -4,6 +4,7 @@
     python tools/solutions.py status
     python tools/solutions.py hide all
     python tools/solutions.py show 1 2
+    python tools/solutions.py sync      # пересобрать сайт, если он разошелся с настройкой
 
 Утилита по SSH записывает список скрытых страниц в hidden_solutions.txt на сервере
 и пересобирает контейнер с документацией (см. hooks/hide_solutions.py).
@@ -52,10 +53,14 @@ def write_hidden(hidden):
         ssh(f"rm -f {path}")
 
 
-def rebuild():
+def rebuild(hidden):
     print("Пересобираю документацию на сервере...")
     started = time.time()
     ssh(f"cd {REMOTE_DIR} && docker compose up -d --build --quiet-pull 2>&1 && docker image prune -f >/dev/null")
+    # новый контейнер начинает отвечать не сразу - ждем, пока сайт придет в нужное состояние
+    deadline = time.time() + 30
+    while not site_matches(hidden) and time.time() < deadline:
+        time.sleep(2)
     print(f"Готово за {time.time() - started:.0f} с")
 
 
@@ -71,14 +76,26 @@ def page_status(n):
         return None
 
 
-def print_status(hidden, check_site=True):
+def expected_status(n, hidden):
+    return 404 if page_file(n) in hidden else 200
+
+
+def site_matches(hidden):
+    return all(page_status(n) == expected_status(n, hidden) for n in SOLUTIONS)
+
+
+def print_status(hidden):
+    in_sync = True
     for n in SOLUTIONS:
         state = "скрыто" if page_file(n) in hidden else "видно"
-        line = f"Решение {n}: {state}"
-        if check_site:
-            code = page_status(n)
-            line += f"  (сайт отвечает {code or 'ошибкой'})"
+        code = page_status(n)
+        line = f"Решение {n}: {state}  (сайт отвечает {code or 'ошибкой'})"
+        if code != expected_status(n, hidden):
+            in_sync = False
+            line += "  <- сайт не совпадает с настройкой"
         print(line)
+    if not in_sync:
+        print("Сайт не пересобран под текущую настройку, выполните: python tools/solutions.py sync")
 
 
 def parse_numbers(values):
@@ -98,6 +115,7 @@ def main():
     parser = argparse.ArgumentParser(description="Видимость страниц «Решение N» на сайте воркшопа")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("status", help="показать, какие решения скрыты")
+    sub.add_parser("sync", help="пересобрать сайт под текущую настройку")
     for name, help_text in [("hide", "скрыть решения"), ("show", "показать решения")]:
         p = sub.add_parser(name, help=help_text)
         p.add_argument("numbers", nargs="+", help="номера решений 1-5 или all")
@@ -107,16 +125,21 @@ def main():
     if args.command == "status":
         print_status(hidden)
         return
+    if args.command == "sync":
+        rebuild(hidden)
+        print_status(hidden)
+        return
 
     pages = {page_file(n) for n in parse_numbers(args.numbers)}
     new_hidden = hidden | pages if args.command == "hide" else hidden - pages
-    if new_hidden == hidden:
+    if new_hidden != hidden:
+        write_hidden(new_hidden)
+    # пересобираем и тогда, когда настройка не изменилась, но сайт ей не соответствует:
+    # например, если прошлая пересборка оборвалась после записи файла
+    if new_hidden != hidden or not site_matches(new_hidden):
+        rebuild(new_hidden)
+    else:
         print("Ничего не изменилось")
-        print_status(hidden, check_site=False)
-        return
-
-    write_hidden(new_hidden)
-    rebuild()
     print_status(new_hidden)
 
 
