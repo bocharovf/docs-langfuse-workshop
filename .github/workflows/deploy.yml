@@ -22,9 +22,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install mkdocs mkdocs-glightbox
+      - run: pip install -r requirements.txt
 
       - run: mkdocs build --strict
+
+      - run: python tools/check_images.py docs site
 
   deploy:
     name: Deploy to server

@@ -2,12 +2,15 @@ FROM python:3.12-slim AS builder
 
 WORKDIR /workspace
 
+COPY requirements.txt .
+
 RUN python -m pip install --upgrade pip \
-    && pip install mkdocs mkdocs-glightbox
+    && pip install --no-cache-dir -r requirements.txt
 
 COPY . /workspace
 
-RUN mkdocs build --clean
+RUN mkdocs build --clean \
+    && python tools/check_images.py docs site
 
 FROM nginx:alpine
 
