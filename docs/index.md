@@ -4,12 +4,7 @@ description: "Бесплатный воркшоп по Langfuse: научите�
 
 # Добро пожаловать на воркшоп по Langfuse
 
-Этот воркшоп прошли 60+ человек на конференциях [AIConf 2026](https://aiconf.ru/2026/abstracts/18239) и [Saint HighLoad++ 2026](https://highload.ru/spb/2026/abstracts/17861), а теперь он стал публичным!
-
-Новости:
-
-- Воркшоп обновлен до Langfuse v4.56.0
-- 17 октября 2026 воркшоп пройдет на конференции [HardFest 2026](https://2026.hardfest.ru/lecture/3818) 
+Этот воркшоп прошли 90+ человек на конференциях [AIConf 2026](https://aiconf.ru/2026/abstracts/18239), [Saint HighLoad++ 2026](https://highload.ru/spb/2026/abstracts/17861) и [HardFest 2026](https://2026.hardfest.ru/lecture/3818), а теперь он стал публичным! Воркшоп обновлен до Langfuse v4.56.0 и актуальных моделей.
 
 ![Как это было](/img/shl26.jpg)
 
