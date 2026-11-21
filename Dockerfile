@@ -15,6 +15,7 @@ RUN mkdocs build --clean \
 FROM nginx:alpine
 
 COPY --from=builder /workspace/site /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
