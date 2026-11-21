@@ -5,6 +5,7 @@ site_url: https://docs.langfuse-workshop.ru/
 
 nav:
   - Вступление: index.md
+  - ИИ-помощник: ai-assistant.md
   - Подготовка: setup.md
   - Как читать трейс: howto.md
   - Учимся инструментировать код: step0.md
@@ -38,3 +39,6 @@ hooks:
 
 extra_css:
   - css/custom.css
+
+extra_javascript:
+  - js/agent-prompt.js

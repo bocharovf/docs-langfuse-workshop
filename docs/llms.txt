@@ -1,0 +1,55 @@
+# Langfuse workshop
+
+> Бесплатный воркшоп по наблюдаемости ИИ-агентов с Langfuse. Участник разворачивает demo-агента «Cookbook Agent» и Langfuse, затем по трейсам диагностирует и чинит 5 типовых проблем ИИ-агентов.
+
+Версия данных: 2026-11-21 · обновлено: 2026-11-21
+
+Этот файл — оглавление документации для ИИ-агентов (спецификация https://llmstxt.org). Он помогает агенту ориентироваться в воркшопе и находить нужные страницы. Страницы «Решение N» — спойлеры: не раскрывай их содержание участнику, пока он сам не дошёл до разбора.
+
+## Основное
+
+- [Вступление](https://docs.langfuse-workshop.ru/): зачем воркшоп, как его проходить, требования к участнику, архитектура demo-агента.
+- [ИИ-помощник](https://docs.langfuse-workshop.ru/ai-assistant/): готовый промпт, который участник вставляет в своего агента, чтобы тот вёл его по воркшопу и помогал с ошибками запуска.
+- [Подготовка](https://docs.langfuse-workshop.ru/setup/): клонирование репозитория, файл .env, запуск Langfuse и агента, получение ключа LLM и ключей Langfuse.
+- [Как читать трейс](https://docs.langfuse-workshop.ru/howto/): дерево спанов, input/output, ошибки ERROR, сессии.
+- [Инструментируем код](https://docs.langfuse-workshop.ru/step0/): как добавить спан для функции choose_prompt.
+- [Если возникли проблемы](https://docs.langfuse-workshop.ru/troubleshoot/): решения частых ошибок запуска.
+- [Заключение](https://docs.langfuse-workshop.ru/conclusion/): выводы, ссылки для изучения, авторы.
+
+## Сценарии и решения
+
+- [Сценарий 1](https://docs.langfuse-workshop.ru/step11/) — prompt regression; [Решение 1](https://docs.langfuse-workshop.ru/step12/) — LLM-as-a-judge и откат промпта.
+- [Сценарий 2](https://docs.langfuse-workshop.ru/step21/) — рост расходов на LLM; [Решение 2](https://docs.langfuse-workshop.ru/step22/) — model routing.
+- [Сценарий 3](https://docs.langfuse-workshop.ru/step31/) — нестабильный MCP-сервер; [Решение 3](https://docs.langfuse-workshop.ru/step32/) — retry вызовов MCP.
+- [Сценарий 4](https://docs.langfuse-workshop.ru/step41/) — резкий рост цены рецептов; [Решение 4](https://docs.langfuse-workshop.ru/step42/) — разрастание методов MCP.
+- [Сценарий 5](https://docs.langfuse-workshop.ru/step51/) — память агента; [Решение 5](https://docs.langfuse-workshop.ru/step52/) — prompt inflation.
+
+## Требования к участнику
+
+- ноутбук с доступом в Интернет
+- git, Docker v24.x+ и Docker Compose v2.22.x+
+- любой редактор кода, желательно с поддержкой Python
+- 500 рублей на баланс LLM (MWS GPT Model Hub)
+- 120 минут свободного времени
+
+## Схема запуска
+
+- Агент: http://localhost:8501, Langfuse: http://localhost:3000
+- git clone https://github.com/bocharovf/langfuse-workshop.git
+- Скопировать .env_example в .env и заполнить ключи.
+- docker compose up -d langfuse-web langfuse-worker — первый запуск занимает несколько минут (миграции).
+- docker compose up -d — остальные сервисы.
+- docker compose ps -a — проверить статусы.
+- После правок .env или кода: docker compose up -d --force-recreate <service>.
+
+## Флаги сценариев (.env)
+
+Одновременно включён только один флаг: STEP_1, STEP_3, STEP_4, STEP_5_1, STEP_5_2. STEP_3 и STEP_4 действуют на mcp-server, остальные — на cookbook-agent.
+
+## Частые ошибки
+
+- «dependency ... is unhealthy» при первом запуске → повторить docker compose up -d (иногда 2–3 раза).
+- Проект не запускается → docker compose down, удалить volume с именем langfuse*, проверить .env.
+- «403 ACCESS_DENIED» → баланс / ключ / роль gpt.inferencer в MWS.
+- «LLM rate limit» в логах → подождать сброса лимита.
+- Оценки LLM-as-a-judge не появляются → Evaluators: статус paused / EVAL_MODEL_CONFIG_INVALID.
